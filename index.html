@@ -232,6 +232,17 @@ restaurants.forEach((r, i) => {
   el.className = 'marker';
   const marker = new mapboxgl.Marker({ element: el, anchor: 'center' })
     .setLngLat([r.lng, r.lat]).addTo(map);
+  el.addEventListener('mouseenter', () => {
+    if (activePopup) return;
+    new mapboxgl.Popup({ offset: 12, closeButton: false, anchor: 'bottom' })
+      .setLngLat([r.lng, r.lat])
+      .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div></div>`)
+      .addTo(map);
+  });
+  el.addEventListener('mouseleave', () => {
+    const popups = document.querySelectorAll('.mapboxgl-popup:not(.mapboxgl-popup-anchor-bottom)');
+    document.querySelectorAll('.mapboxgl-popup').forEach(p => { if (!p.querySelector('.mapboxgl-popup-close-button')) p.remove(); });
+  });
   el.addEventListener('click', () => { flyTo(r); highlightCard(i); showPopup(r, i); });
   markers[i] = { marker, el };
 });
