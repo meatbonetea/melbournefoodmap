@@ -76,7 +76,7 @@
   .popup-body { padding: 8px 12px; }
   .popup-suburb { font-size: 11px; color: var(--mid); }
   .popup-meta { font-size: 10px; font-weight: 700; color: var(--black); margin-top: 3px; }
-  .mapboxgl-popup-close-button { color: var(--white) !important; font-size: 14px; padding: 4px 8px; }
+  .popup-link { display: block; margin-top: 6px; font-size: 10px; font-weight: 700; color: var(--red); text-decoration: none; letter-spacing: 0.06em; }
   .mapboxgl-popup-tip { display: none; }
   .mapboxgl-ctrl button { border-radius: 0 !important; }
   .mapboxgl-ctrl-group { border-radius: 0 !important; border: 1px solid var(--black) !important; }
@@ -121,94 +121,94 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGFydmFyZHdhbmciLCJhIjoiY21uMmx5dW45MTE3cTJ3cG5uOG1kNml5MSJ9.1C5ZiisSfrafHJe0T4K8Kg';
 
 const restaurants = [
-  { name:"A1 Bakery", cuisine:"Lebanese", suburb:"Brunswick", price:"$", vibe:"Casual", must_order:"zaatar, haloumi pie, kibbeh platter.", lat:-37.7620, lng:144.9629 },
-  { name:"Anchovy", cuisine:"Vietnamese", suburb:"Richmond", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8191, lng:145.0026 },
-  { name:"Arnold's Wine Bar", cuisine:"Wine bar", suburb:"Kensington", price:"$$", vibe:"Casual", must_order:"Whatever's on the rotating seasonal menu.", lat:-37.7940, lng:144.9301 },
-  { name:"ARU", cuisine:"Modern Australian", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"Jay Chou came for the duck", lat:-37.8146, lng:144.9656 },
-  { name:"Bahama Gold", cuisine:"Wine bar", suburb:"Brunswick East", price:"$$", vibe:"Casual", must_order:"pizza.", lat:-37.7739, lng:144.9710 },
-  { name:"Bandak Fried Chicken", cuisine:"Korean", suburb:"West Melbourne", price:"$", vibe:"Casual", must_order:"Original fried chicken, lemon pepper wings.", lat:-37.8099, lng:144.9485 },
-  { name:"Bar Liberty", cuisine:"Wine bar", suburb:"Fitzroy", price:"$$$", vibe:"Date night", must_order:"", lat:-37.7990, lng:144.9828 },
-  { name:"Bar Selecta", cuisine:"Cocktail bar", suburb:"Hawthorn", price:"$$", vibe:"Date night", must_order:"Rum & raisin old fashioned.", lat:-37.8192, lng:145.0355 },
-  { name:"Bar Thyme", cuisine:"Wine bar", suburb:"Footscray", price:"$$", vibe:"Casual", must_order:".", lat:-37.7997, lng:144.8967 },
-  { name:"Beku", cuisine:"Gelato", suburb:"Carlton", price:"$", vibe:"Casual", must_order:"cendol, milky lychee yuzu", lat:-37.8036, lng:144.9667 },
-  { name:"Bench Coffee", cuisine:"Coffee", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"Most consistent cup in the city", lat:-37.8152, lng:144.9642 },
-  { name:"Bizu Hotpot", cuisine:"Hotpot", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8121, lng:144.9664 },
-  { name:"Bornga", cuisine:"Korean BBQ", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8119, lng:144.9670 },
-  { name:"Carlton Wine Room", cuisine:"Wine bar", suburb:"Carlton", price:"$$$", vibe:"Date night", must_order:"", lat:-37.7986, lng:144.9686 },
-  { name:"Chauncy", cuisine:"Modern Australian", suburb:"Heathcote", price:"$$$$", vibe:"Special occasion", must_order:"", lat:-36.9183, lng:144.7058 },
-  { name:"Chicken Joah", cuisine:"Korean", suburb:"Footscray", price:"$", vibe:"Casual", must_order:"chicken - fried", lat:-37.7993, lng:144.9007 },
-  { name:"China Bar", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$", vibe:"Late night", must_order:"", lat:-37.8121, lng:144.9648 },
-  { name:"Cicciolina", cuisine:"Italian", suburb:"St Kilda", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8686, lng:144.9800 },
-  { name:"City Wine Shop", cuisine:"Wine bar", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8110, lng:144.9725 },
-  { name:"Codo", cuisine:"Vietnamese", suburb:"Richmond", price:"$", vibe:"Casual", must_order:"", lat:-37.8104, lng:144.9978 },
-  { name:"Dainty Sichuan", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$$", vibe:"Casual", must_order:"laziji, ants climbing up the tree", lat:-37.8108, lng:144.9680 },
-  { name:"Daphne", cuisine:"Modern Australian", suburb:"Brunswick East", price:"$$", vibe:"Casual", must_order:"", lat:-37.7770, lng:144.9711 },
-  { name:"Doju", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8169, lng:144.9571 },
-  { name:"Dongdaemoon", cuisine:"Korean", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"", lat:-37.8130, lng:144.9557 },
-  { name:"Dragon Hot Pot", cuisine:"Hotpot", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"Malatang — pick your own ingredients.", lat:-37.8116, lng:144.9673 },
-  { name:"Dulce Bakehouse", cuisine:"Bakery", suburb:"Delahey", price:"$", vibe:"Casual", must_order:".", lat:-37.7255, lng:144.7700 },
-  { name:"Dumpling Max", cuisine:"Chinese", suburb:"Carlton", price:"$", vibe:"Casual", must_order:"Handmade dumplings — try the wonton with chilli oil and fish roe.", lat:-37.8067, lng:144.9655 },
-  { name:"Elio's Place", cuisine:"European", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", must_order:"", lat:-37.8166, lng:144.9661 },
-  { name:"Everyday Coffee", cuisine:"Coffee", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"Bagels and filter coffee.", lat:-37.8143, lng:144.9671 },
-  { name:"Etta", cuisine:"Modern Australian", suburb:"Brunswick East", price:"$$$", vibe:"Date night", must_order:"", lat:-37.7769, lng:144.9711 },
-  { name:"Flower Drum", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$$$", vibe:"Special occasion", must_order:"scallop siu mai", lat:-37.8119, lng:144.9692 },
-  { name:"France-Soir", cuisine:"French", suburb:"South Yarra", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8383, lng:144.9869 },
-  { name:"French Saloon", cuisine:"French", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8136, lng:144.9613 },
-  { name:"Fu Lu Chinese Takeaway", cuisine:"Chinese", suburb:"Carlton", price:"$", vibe:"Casual", must_order:"Special fried rice — feeds two, costs nothing.", lat:-37.7953, lng:144.9711 },
-  { name:"Garamerica", cuisine:"Indonesian", suburb:"South Melbourne", price:"$$", vibe:"Weekend brunch", must_order:"Nasi bungkus with cumi hitam and rendang.", lat:-37.8309, lng:144.9709 },
-  { name:"Gerald's Bar", cuisine:"Wine bar", suburb:"Carlton North", price:"$$", vibe:"Casual", must_order:"", lat:-37.7842, lng:144.9701 },
-  { name:"Good Measure", cuisine:"Coffee", suburb:"Carlton", price:"$", vibe:"Casual", must_order:"Home of the Mont Blanc", lat:-37.8012, lng:144.9667 },
-  { name:"Hansang", cuisine:"Korean", suburb:"West Melbourne", price:"$$", vibe:"Casual", must_order:"The endless banchan refills.", lat:-37.8121, lng:144.9535 },
-  { name:"Harriot", cuisine:"French", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8187, lng:144.9564 },
-  { name:"Ho Liao", cuisine:"Malaysian", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"Chilli crab with fried mantau buns", lat:-37.8140, lng:144.9666 },
-  { name:"Hong Dae", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8091, lng:144.9687 },
-  { name:"Hopper Joint", cuisine:"Sri Lankan", suburb:"Prahran", price:"$$", vibe:"Date night", must_order:"Egg hopper, goat curry, blackened pineapple.", lat:-37.8492, lng:144.9921 },
-  { name:"Il Bacaro", cuisine:"Italian", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8139, lng:144.9680 },
-  { name:"Juni", cuisine:"Asian fusion", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8124, lng:144.9710 },
-  { name:"Kaprica", cuisine:"Italian", suburb:"Carlton", price:"$$", vibe:"Casual", must_order:"Pizza and tiramisu.", lat:-37.8007, lng:144.9679 },
-  { name:"Kenzan", cuisine:"Japanese", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"Only OG CBD left", lat:-37.8146, lng:144.9728 },
-  { name:"Kori", cuisine:"Dessert", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"Fuji apple sorbet, purin purin", lat:-37.8143, lng:144.9618 },
-  { name:"La Pinta", cuisine:"Spanish", suburb:"Reservoir", price:"$$", vibe:"Casual", must_order:"", lat:-37.7287, lng:145.0054 },
-  { name:"Little Cardigan", cuisine:"Bakery", suburb:"Brunswick", price:"$", vibe:"Casual", must_order:"Kaya toast with shokupan", lat:-37.7619, lng:144.9618 },
-  { name:"Luke's Banh Mi", cuisine:"Vietnamese", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"", lat:-37.8147, lng:144.9568 },
-  { name:"Madeleine de Proust", cuisine:"French", suburb:"Carlton", price:"$$", vibe:"Casual", must_order:"Seasonal madeleines — try whatever's on. Also: BEST canele in town", lat:-37.7995, lng:144.9669 },
-  { name:"Manze", cuisine:"Mauritian", suburb:"North Melbourne", price:"$$", vibe:"Date night", must_order:"", lat:-37.8049, lng:144.9490 },
-  { name:"Mansae BBQ", cuisine:"Korean BBQ", suburb:"Melbourne CBD", price:"$$$", vibe:"Casual", must_order:"Happiness set for two — let staff cook it.", lat:-37.8079, lng:144.9589 },
-  { name:"Marquess of Lorne", cuisine:"Pub", suburb:"Fitzroy", price:"$$", vibe:"Casual", must_order:"", lat:-37.7972, lng:144.9820 },
-  { name:"Marmelo", cuisine:"Portuguese", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", must_order:"", lat:-37.8133, lng:144.9685 },
-  { name:"Matsu", cuisine:"Japanese", suburb:"Footscray", price:"$$$$", vibe:"Special occasion", must_order:"Kaiseki — 12-seat omakase counter.", lat:-37.7994, lng:144.8950 },
-  { name:"Melitta Next Door", cuisine:"Mediterranean", suburb:"Carlton", price:"$$", vibe:"Casual", must_order:"", lat:-37.7955, lng:144.9711 },
-  { name:"Mesob", cuisine:"Ethiopian", suburb:"Northcote", price:"$$", vibe:"Casual", must_order:"", lat:-37.7739, lng:144.9979 },
-  { name:"Myth Café", cuisine:"Malaysian", suburb:"West Melbourne", price:"$", vibe:"Casual", must_order:"Assam laksa, nasi lemak.", lat:-37.8075, lng:144.9526 },
-  { name:"Namaste Haifa", cuisine:"Indian", suburb:"Ormond", price:"$", vibe:"Casual", must_order:"", lat:-37.9041, lng:145.0430 },
-  { name:"Nasi Kandar Penang", cuisine:"Malaysian", suburb:"Springvale", price:"$", vibe:"Casual", must_order:"Roti canai, nasi kandar", lat:-37.9516, lng:145.1526 },
-  { name:"One or Two", cuisine:"Cocktail bar", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", must_order:"Mango sticky rice cocktail.", lat:-37.8117, lng:144.9663 },
-  { name:"Oxi Tea Room", cuisine:"Dessert", suburb:"Carlton", price:"$$", vibe:"Special occasion", must_order:"Seasonal themed high tea — dessert degustation.", lat:-37.8063, lng:144.9619 },
-  { name:"Pepe", cuisine:"Italian", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8093, lng:144.9690 },
-  { name:"Phoenix Kitchen", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$", vibe:"Casual", must_order:"Signature roasted duck, half serve.", lat:-37.8094, lng:144.9597 },
-  { name:"Pho Chu The", cuisine:"Vietnamese", suburb:"Footscray", price:"$", vibe:"Casual", must_order:"Pho", lat:-37.8000, lng:144.9021 },
-  { name:"Pizza Dasporto", cuisine:"Italian", suburb:"Essendon", price:"$", vibe:"Casual", must_order:"", lat:-37.7531, lng:144.9183 },
-  { name:"Rezah Afghan Kebab", cuisine:"Afghan", suburb:"Brunswick", price:"$", vibe:"Casual", must_order:"", lat:-37.7632, lng:144.9627 },
-  { name:"Sardinas", cuisine:"Wine bar", suburb:"Reservoir", price:"$$", vibe:"Casual", must_order:"Venetian sardines on toast, seasonal sandwiches", lat:-37.7286, lng:145.0059 },
-  { name:"Small Batch", cuisine:"Coffee", suburb:"North Melbourne", price:"$", vibe:"Casual", must_order:"Croissant", lat:-37.8043, lng:144.9545 },
-  { name:"Sogumm", cuisine:"Korean", suburb:"Cremorne", price:"$$", vibe:"Casual", must_order:"Bossam, gom tang and the seafood bibim guksu.", lat:-37.8262, lng:144.9976 },
-  { name:"Sokcho", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8128, lng:144.9556 },
-  { name:"Spice Mix", cuisine:"Indian", suburb:"Brunswick East", price:"$", vibe:"Casual", must_order:"", lat:-37.7725, lng:144.9717 },
-  { name:"Suze", cuisine:"Wine bar", suburb:"Fitzroy North", price:"$$", vibe:"Date night", must_order:"", lat:-37.7905, lng:144.9773 },
-  { name:"Tamura Sake Bar", cuisine:"Japanese", suburb:"Fitzroy", price:"$$", vibe:"Date night", must_order:"", lat:-37.8055, lng:144.9757 },
-  { name:"Taste of Hunan", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"", lat:-37.8114, lng:144.9611 },
-  { name:"Tzaki", cuisine:"Greek", suburb:"Yarraville", price:"$$", vibe:"Casual", must_order:"", lat:-37.8170, lng:144.8909 },
-  { name:"Tedesca", cuisine:"Modern Australian", suburb:"Red Hill", price:"$$$$", vibe:"Special occasion", must_order:"Seasonal farm-to-fork tasting menu.", lat:-38.3808, lng:144.9936 },
-  { name:"The Courthouse Hotel", cuisine:"Pub", suburb:"North Melbourne", price:"$$", vibe:"Casual", must_order:"", lat:-37.8029, lng:144.9499 },
-  { name:"The Lincoln", cuisine:"Pub", suburb:"Carlton", price:"$$", vibe:"Casual", must_order:"", lat:-37.8045, lng:144.9645 },
-  { name:"The Pontian Club", cuisine:"Greek", suburb:"Collingwood", price:"$$", vibe:"Casual", must_order:"", lat:-37.8081, lng:144.9829 },
-  { name:"Three Horses", cuisine:"Cocktail bar", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", must_order:"Seasonal cocktail menu — sherry-focused.", lat:-37.8091, lng:144.9686 },
-  { name:"Tom Toon", cuisine:"Thai", suburb:"Abbotsford", price:"$", vibe:"Casual", must_order:"", lat:-37.8095, lng:144.9921 },
-  { name:"Uminono", cuisine:"Japanese", suburb:"Prahran", price:"$$$$", vibe:"Special occasion", must_order:"Dry-aged sashimi omakase.", lat:-37.8490, lng:144.9932 },
-  { name:"Vex Dining", cuisine:"Modern Australian", suburb:"Northcote", price:"$$$", vibe:"Date night", must_order:"", lat:-37.7806, lng:144.9970 },
-  { name:"West Lake", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", must_order:"Yum cha — trolley service, har gow.", lat:-37.8122, lng:144.9669 },
-  { name:"Yiaga", cuisine:"Modern Australian", suburb:"East Melbourne", price:"$$$$", vibe:"Special occasion", must_order:"", lat:-37.8131, lng:144.9813 },
-  { name:"Zareh", cuisine:"Middle Eastern", suburb:"Collingwood", price:"$$", vibe:"Date night", must_order:"", lat:-37.7980, lng:144.9847 },
+  { name:"A1 Bakery", cuisine:"Lebanese", suburb:"Brunswick", price:"$", vibe:"Casual", url:"", must_order:"Zaatar pizza and the kibbeh platter.", lat:-37.7620, lng:144.9629 },
+  { name:"Anchovy", cuisine:"Vietnamese", suburb:"Richmond", price:"$$$", vibe:"Date night", url:"", must_order:"Tea-smoked quail and the pandan crepes.", lat:-37.8191, lng:145.0026 },
+  { name:"Arnold's Wine Bar", cuisine:"Wine bar", suburb:"Kensington", price:"$$", vibe:"Casual", url:"", must_order:"Whatever's on the rotating seasonal menu.", lat:-37.7940, lng:144.9301 },
+  { name:"ARU", cuisine:"Modern Australian", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Dry-aged duck and the clay pot rice.", lat:-37.8146, lng:144.9656 },
+  { name:"Bahama Gold", cuisine:"Wine bar", suburb:"Brunswick East", price:"$$", vibe:"Casual", url:"", must_order:"Wine on tap and wood-fired pizza.", lat:-37.7739, lng:144.9710 },
+  { name:"Bandak Fried Chicken", cuisine:"Korean", suburb:"West Melbourne", price:"$", vibe:"Casual", url:"", must_order:"Original fried chicken, lemon pepper wings.", lat:-37.8099, lng:144.9485 },
+  { name:"Bar Liberty", cuisine:"Wine bar", suburb:"Fitzroy", price:"$$$", vibe:"Date night", url:"", must_order:"Weekly changing set menu — always a highlight.", lat:-37.7990, lng:144.9828 },
+  { name:"Bar Selecta", cuisine:"Cocktail bar", suburb:"Hawthorn", price:"$$", vibe:"Date night", url:"", must_order:"Rum & raisin old fashioned.", lat:-37.8192, lng:145.0355 },
+  { name:"Bar Thyme", cuisine:"Wine bar", suburb:"Footscray", price:"$$", vibe:"Casual", url:"", must_order:"Sunday roast, three courses.", lat:-37.7997, lng:144.8967 },
+  { name:"Beku", cuisine:"Gelato", suburb:"Carlton", price:"$", vibe:"Casual", url:"", must_order:"Fuji apple and hokkaido cheesecake scoops.", lat:-37.8036, lng:144.9667 },
+  { name:"Bench Coffee", cuisine:"Coffee", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Their espresso — precise and intentional.", lat:-37.8152, lng:144.9642 },
+  { name:"Bizu Hotpot", cuisine:"Hotpot", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Sichuan spicy broth, prime beef slices.", lat:-37.8121, lng:144.9664 },
+  { name:"Bornga", cuisine:"Korean BBQ", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Woo samgyeop and the cold buckwheat noodles.", lat:-37.8119, lng:144.9670 },
+  { name:"Carlton Wine Room", cuisine:"Wine bar", suburb:"Carlton", price:"$$$", vibe:"Date night", url:"", must_order:"Stracciatella with potato focaccia.", lat:-37.7986, lng:144.9686 },
+  { name:"Chauncy", cuisine:"Modern Australian", suburb:"Heathcote", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Six-course seasonal tasting menu.", lat:-36.9183, lng:144.7058 },
+  { name:"Chicken Joah", cuisine:"Korean", suburb:"Footscray", price:"$", vibe:"Casual", url:"", must_order:"Boneless chicken, lemon pepper, wagyu chips.", lat:-37.7993, lng:144.9007 },
+  { name:"China Bar", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$", vibe:"Late night", url:"", must_order:"Peking duck wrap and seafood laksa.", lat:-37.8121, lng:144.9648 },
+  { name:"Cicciolina", cuisine:"Italian", suburb:"St Kilda", price:"$$$", vibe:"Date night", url:"", must_order:"Focaccia with anchovies, truffle gnocchi.", lat:-37.8686, lng:144.9800 },
+  { name:"City Wine Shop", cuisine:"Wine bar", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Chicken pâté on thin toast.", lat:-37.8110, lng:144.9725 },
+  { name:"Codo", cuisine:"Vietnamese", suburb:"Richmond", price:"$", vibe:"Casual", url:"", must_order:"Bo la lot — beef in betel leaf.", lat:-37.8104, lng:144.9978 },
+  { name:"Dainty Sichuan", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$$", vibe:"Casual", url:"", must_order:"All-you-can-eat hotpot and BBQ buffet.", lat:-37.8108, lng:144.9680 },
+  { name:"Daphne", cuisine:"Modern Australian", suburb:"Brunswick East", price:"$$", vibe:"Casual", url:"", must_order:"Lamb rigatoni and the martinis.", lat:-37.7770, lng:144.9711 },
+  { name:"Doju", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Modern Korean degustation — go the full menu.", lat:-37.8169, lng:144.9571 },
+  { name:"Dongdaemoon", cuisine:"Korean", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Kalguksu noodles, kimbap.", lat:-37.8130, lng:144.9557 },
+  { name:"Dragon Hot Pot", cuisine:"Hotpot", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Malatang — pick your own ingredients.", lat:-37.8116, lng:144.9673 },
+  { name:"Dulce Bakehouse", cuisine:"Bakery", suburb:"Delahey", price:"$", vibe:"Casual", url:"", must_order:"Strawberry sponge cake and beef empanadas.", lat:-37.7255, lng:144.7700 },
+  { name:"Dumpling Max", cuisine:"Chinese", suburb:"Carlton", price:"$", vibe:"Casual", url:"", must_order:"Handmade dumplings — try the mackerel fish.", lat:-37.8067, lng:144.9655 },
+  { name:"Elio's Place", cuisine:"European", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", url:"", must_order:"Burrata with chilli oil, chicken schnitzel.", lat:-37.8166, lng:144.9661 },
+  { name:"Everyday Coffee", cuisine:"Coffee", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Bagels and Colombian filter coffee.", lat:-37.8143, lng:144.9671 },
+  { name:"Etta", cuisine:"Modern Australian", suburb:"Brunswick East", price:"$$$", vibe:"Date night", url:"", must_order:"Zhong zi rice dumplings, chrysanthemum tofu.", lat:-37.7769, lng:144.9711 },
+  { name:"Flower Drum", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Peking duck — order it every time.", lat:-37.8119, lng:144.9692 },
+  { name:"France-Soir", cuisine:"French", suburb:"South Yarra", price:"$$$", vibe:"Date night", url:"", must_order:"Truffle quail, shredded duck, profiteroles.", lat:-37.8383, lng:144.9869 },
+  { name:"French Saloon", cuisine:"French", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Onion soup, cassoulet, whole market fish.", lat:-37.8136, lng:144.9613 },
+  { name:"Fu Lu Chinese Takeaway", cuisine:"Chinese", suburb:"Carlton", price:"$", vibe:"Casual", url:"", must_order:"Special fried rice — feeds two, costs nothing.", lat:-37.7953, lng:144.9711 },
+  { name:"Garamerica", cuisine:"Indonesian", suburb:"South Melbourne", price:"$$", vibe:"Weekend brunch", url:"", must_order:"Nasi bungkus with cumi hitam and rendang.", lat:-37.8309, lng:144.9709 },
+  { name:"Gerald's Bar", cuisine:"Wine bar", suburb:"Carlton North", price:"$$", vibe:"Casual", url:"", must_order:"Sicilian white anchovies, aged rump steak.", lat:-37.7842, lng:144.9701 },
+  { name:"Good Measure", cuisine:"Coffee", suburb:"Carlton", price:"$", vibe:"Casual", url:"", must_order:"Mont Blanc — citrus, creamy, cold brew.", lat:-37.8012, lng:144.9667 },
+  { name:"Hansang", cuisine:"Korean", suburb:"West Melbourne", price:"$$", vibe:"Casual", url:"", must_order:"Hansang set menu — endless banchan refills.", lat:-37.8121, lng:144.9535 },
+  { name:"Harriot", cuisine:"French", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Wagyu rump, strawberry Paris-Brest dessert.", lat:-37.8187, lng:144.9564 },
+  { name:"Ho Liao", cuisine:"Malaysian", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Chilli crab with fried mantau buns.", lat:-37.8140, lng:144.9666 },
+  { name:"Hong Dae", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Crab soybean paste stew, japchae.", lat:-37.8091, lng:144.9687 },
+  { name:"Hopper Joint", cuisine:"Sri Lankan", suburb:"Prahran", price:"$$", vibe:"Date night", url:"", must_order:"Egg hopper, goat curry, blackened pineapple.", lat:-37.8492, lng:144.9921 },
+  { name:"Il Bacaro", cuisine:"Italian", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Truffle risotto cacio e pepe.", lat:-37.8139, lng:144.9680 },
+  { name:"Juni", cuisine:"Asian fusion", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"7-plate lucky dip menu — let them choose.", lat:-37.8124, lng:144.9710 },
+  { name:"Kaprica", cuisine:"Italian", suburb:"Carlton", price:"$$", vibe:"Casual", url:"", must_order:"Pizza and tiramisu.", lat:-37.8007, lng:144.9679 },
+  { name:"Kenzan", cuisine:"Japanese", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Sukiyaki — cooked at the table in winter.", lat:-37.8146, lng:144.9728 },
+  { name:"Kori", cuisine:"Dessert", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Fuji apple sorbet, black sesame.", lat:-37.8143, lng:144.9618 },
+  { name:"La Pinta", cuisine:"Spanish", suburb:"Reservoir", price:"$$", vibe:"Casual", url:"", must_order:"Cucumber salad with nectarine, charred beetroot.", lat:-37.7287, lng:145.0054 },
+  { name:"Little Cardigan", cuisine:"Bakery", suburb:"Brunswick", price:"$", vibe:"Casual", url:"", must_order:"Kaya toast with shokupan — must try.", lat:-37.7619, lng:144.9618 },
+  { name:"Luke's Banh Mi", cuisine:"Vietnamese", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Pork n pork — crispy pork and lemongrass pork.", lat:-37.8147, lng:144.9568 },
+  { name:"Madeleine de Proust", cuisine:"French", suburb:"Carlton", price:"$$", vibe:"Casual", url:"", must_order:"Seasonal madeleines — try whatever's on.", lat:-37.7995, lng:144.9669 },
+  { name:"Manze", cuisine:"Mauritian", suburb:"North Melbourne", price:"$$", vibe:"Date night", url:"", must_order:"Goat skewers, pork cutlet.", lat:-37.8049, lng:144.9490 },
+  { name:"Mansae BBQ", cuisine:"Korean BBQ", suburb:"Melbourne CBD", price:"$$$", vibe:"Casual", url:"", must_order:"Happiness set for two — let staff cook it.", lat:-37.8079, lng:144.9589 },
+  { name:"Marquess of Lorne", cuisine:"Pub", suburb:"Fitzroy", price:"$$", vibe:"Casual", url:"", must_order:"Zucchini salad, schnitzel, steak night.", lat:-37.7972, lng:144.9820 },
+  { name:"Marmelo", cuisine:"Portuguese", suburb:"Melbourne CBD", price:"$$$", vibe:"Date night", url:"", must_order:"Anchovies, Iberian pork, Portuguese cheesecake.", lat:-37.8133, lng:144.9685 },
+  { name:"Matsu", cuisine:"Japanese", suburb:"Footscray", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Kaiseki — 12-seat omakase counter.", lat:-37.7994, lng:144.8950 },
+  { name:"Melitta Next Door", cuisine:"Mediterranean", suburb:"Carlton", price:"$$", vibe:"Casual", url:"", must_order:"Flatbread with whipped onion butter, mussels.", lat:-37.7955, lng:144.9711 },
+  { name:"Mesob", cuisine:"Ethiopian", suburb:"Northcote", price:"$$", vibe:"Casual", url:"", must_order:"Omnivore platter for two on injera.", lat:-37.7739, lng:144.9979 },
+  { name:"Myth Café", cuisine:"Malaysian", suburb:"West Melbourne", price:"$", vibe:"Casual", url:"", must_order:"Assam laksa, nasi lemak.", lat:-37.8075, lng:144.9526 },
+  { name:"Namaste Haifa", cuisine:"Indian", suburb:"Ormond", price:"$", vibe:"Casual", url:"", must_order:"Thali — unlimited refills for under $25.", lat:-37.9041, lng:145.0430 },
+  { name:"Nasi Kandar Penang", cuisine:"Malaysian", suburb:"Springvale", price:"$", vibe:"Casual", url:"", must_order:"Roti canai, iced syrup drink.", lat:-37.9516, lng:145.1526 },
+  { name:"One or Two", cuisine:"Cocktail bar", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", url:"", must_order:"Mango sticky rice cocktail.", lat:-37.8117, lng:144.9663 },
+  { name:"Oxi Tea Room", cuisine:"Dessert", suburb:"Carlton", price:"$$", vibe:"Special occasion", url:"", must_order:"Seasonal themed high tea — dessert degustation.", lat:-37.8063, lng:144.9619 },
+  { name:"Pepe", cuisine:"Italian", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Vodka rigatoni, tiramisu.", lat:-37.8093, lng:144.9690 },
+  { name:"Phoenix Kitchen", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$", vibe:"Casual", url:"", must_order:"Signature roasted duck, half serve.", lat:-37.8094, lng:144.9597 },
+  { name:"Pho Chu The", cuisine:"Vietnamese", suburb:"Footscray", price:"$", vibe:"Casual", url:"", must_order:"Special beef pho — rich broth, generous meat.", lat:-37.8000, lng:144.9021 },
+  { name:"Pizza Dasporto", cuisine:"Italian", suburb:"Essendon", price:"$", vibe:"Casual", url:"", must_order:"Diavola pizza — Neapolitan dough perfection.", lat:-37.7531, lng:144.9183 },
+  { name:"Rezah Afghan Kebab", cuisine:"Afghan", suburb:"Brunswick", price:"$", vibe:"Casual", url:"", must_order:"Lamb karahi and chapli kebab with naan.", lat:-37.7632, lng:144.9627 },
+  { name:"Sardinas", cuisine:"Wine bar", suburb:"Reservoir", price:"$$", vibe:"Casual", url:"", must_order:"Venetian sardines on toast, cured meat plate.", lat:-37.7286, lng:145.0059 },
+  { name:"Small Batch", cuisine:"Coffee", suburb:"North Melbourne", price:"$", vibe:"Casual", url:"", must_order:"Blood orange croissant — pre-order online.", lat:-37.8043, lng:144.9545 },
+  { name:"Sogumm", cuisine:"Korean", suburb:"Cremorne", price:"$$", vibe:"Casual", url:"", must_order:"Bossam and the seafood bibim guksu.", lat:-37.8262, lng:144.9976 },
+  { name:"Sokcho", cuisine:"Korean", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Honey butter squid, smoked duck.", lat:-37.8128, lng:144.9556 },
+  { name:"Spice Mix", cuisine:"Indian", suburb:"Brunswick East", price:"$", vibe:"Casual", url:"", must_order:"Dal makhani, lamb korma, mango lassi.", lat:-37.7725, lng:144.9717 },
+  { name:"Suze", cuisine:"Wine bar", suburb:"Fitzroy North", price:"$$", vibe:"Date night", url:"", must_order:"Focaccia, ricotta with fig, caramelised artichoke pasta.", lat:-37.7905, lng:144.9773 },
+  { name:"Tamura Sake Bar", cuisine:"Japanese", suburb:"Fitzroy", price:"$$", vibe:"Date night", url:"", must_order:"Sake pairing set, Japanese fried chicken.", lat:-37.8055, lng:144.9757 },
+  { name:"Taste of Hunan", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Hunan sliced pork, pickle fish.", lat:-37.8114, lng:144.9611 },
+  { name:"Tzaki", cuisine:"Greek", suburb:"Yarraville", price:"$$", vibe:"Casual", url:"", must_order:"Flatbread with feta butter, bourdetto fish.", lat:-37.8170, lng:144.8909 },
+  { name:"Tedesca", cuisine:"Modern Australian", suburb:"Red Hill", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Seasonal farm-to-fork tasting menu.", lat:-38.3808, lng:144.9936 },
+  { name:"The Courthouse Hotel", cuisine:"Pub", suburb:"North Melbourne", price:"$$", vibe:"Casual", url:"", must_order:"Slow-cooked lamb shoulder, pickled octopus.", lat:-37.8029, lng:144.9499 },
+  { name:"The Lincoln", cuisine:"Pub", suburb:"Carlton", price:"$$", vibe:"Casual", url:"", must_order:"Kangaroo loin, devilled eggs with bottarga.", lat:-37.8045, lng:144.9645 },
+  { name:"The Pontian Club", cuisine:"Greek", suburb:"Collingwood", price:"$$", vibe:"Casual", url:"", must_order:"Prawns in rizoni, chargrilled octopus.", lat:-37.8081, lng:144.9829 },
+  { name:"Three Horses", cuisine:"Cocktail bar", suburb:"Melbourne CBD", price:"$$", vibe:"Date night", url:"", must_order:"Seasonal cocktail menu — sherry-focused.", lat:-37.8091, lng:144.9686 },
+  { name:"Tom Toon", cuisine:"Thai", suburb:"Abbotsford", price:"$", vibe:"Casual", url:"", must_order:"Massaman beef curry, papaya salad.", lat:-37.8095, lng:144.9921 },
+  { name:"Uminono", cuisine:"Japanese", suburb:"Prahran", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Dry-aged sashimi omakase — kinmedai standout.", lat:-37.8490, lng:144.9932 },
+  { name:"Vex Dining", cuisine:"Modern Australian", suburb:"Northcote", price:"$$$", vibe:"Date night", url:"", must_order:"Vex set menu — vegetable-forward, inventive.", lat:-37.7806, lng:144.9970 },
+  { name:"West Lake", cuisine:"Chinese", suburb:"Melbourne CBD", price:"$$", vibe:"Casual", url:"", must_order:"Yum cha — trolley service, har gow.", lat:-37.8122, lng:144.9669 },
+  { name:"Yiaga", cuisine:"Modern Australian", suburb:"East Melbourne", price:"$$$$", vibe:"Special occasion", url:"", must_order:"Tasting menu in Fitzroy Gardens — unforgettable.", lat:-37.8131, lng:144.9813 },
+  { name:"Zareh", cuisine:"Middle Eastern", suburb:"Collingwood", price:"$$", vibe:"Date night", url:"", must_order:"Chicken kebabs, Tom's hummus, pumpkin rice.", lat:-37.7980, lng:144.9847 },
 ];
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGFydmFyZHdhbmciLCJhIjoiY21uMmx5dW45MTE3cTJ3cG5uOG1kNml5MSJ9.1C5ZiisSfrafHJe0T4K8Kg';
@@ -227,6 +227,10 @@ let markers = {};
 let activePopup = null;
 let highlightedIndex = null;
 
+function popupHTML(r) {
+  return `<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div>${r.url ? `<a class="popup-link" href="${r.url}" target="_blank" rel="noopener">Visit website →</a>` : ''}</div>`;
+}
+
 restaurants.forEach((r, i) => {
   const el = document.createElement('div');
   el.className = 'marker';
@@ -236,7 +240,7 @@ restaurants.forEach((r, i) => {
     if (activePopup) return;
     new mapboxgl.Popup({ offset: 12, closeButton: false, anchor: 'bottom' })
       .setLngLat([r.lng, r.lat])
-      .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div></div>`)
+      .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div>${r.url ? `<a class="popup-link" href="${r.url}" target="_blank" rel="noopener">Visit website →</a>` : ''}</div>`)
       .addTo(map);
   });
   el.addEventListener('mouseleave', () => {
@@ -253,7 +257,7 @@ function showPopup(r, i) {
   if (activePopup) activePopup.remove();
   activePopup = new mapboxgl.Popup({ offset: 12, closeButton: true, anchor: 'bottom' })
     .setLngLat([r.lng, r.lat])
-    .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div></div>`)
+    .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div>${r.url ? `<a class="popup-link" href="${r.url}" target="_blank" rel="noopener">Visit website →</a>` : ''}</div>`)
     .addTo(map);
 }
 
