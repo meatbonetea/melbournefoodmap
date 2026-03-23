@@ -240,7 +240,7 @@ function flyTo(r) { map.flyTo({ center: [r.lng, r.lat], zoom: 15, duration: 800,
 
 function showPopup(r, i) {
   if (activePopup) activePopup.remove();
-  activePopup = new mapboxgl.Popup({ offset: 0, closeButton: true, anchor: 'bottom' })
+  activePopup = new mapboxgl.Popup({ offset: 12, closeButton: true, anchor: 'bottom' })
     .setLngLat([r.lng, r.lat])
     .setHTML(`<div class="popup-header"><div class="popup-cuisine">${r.cuisine}</div><div class="popup-name">${r.name}</div></div><div class="popup-body"><div class="popup-suburb">${r.suburb}</div><div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div></div>`)
     .addTo(map);
