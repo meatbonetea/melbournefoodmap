@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soy Sauce, Sugar, Mirin</title>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0a0a0a;
+    --white:   #ffffff;
+    --red:     #d0021b;
+    --grey:    #f2f2f2;
+    --mid:     #999999;
+    --border:  #e0e0e0;
+    --unit:    8px;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--white);
+    color: var(--black);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { display: flex; flex-direction: column; }
+
+  /* ── HEADER — full-bleed black bar ── */
+  header {
+    height: 48px;
+    background: var(--black);
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    z-index: 200;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-right: 1px solid #333;
+  }
+  .logo-wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1;
+  }
+  .logo-rule {
+    width: 24px;
+    height: 2px;
+    background: var(--red);
+    margin-top: 4px;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 32px;
+    flex: 1;
+  }
+  .header-item {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666;
+  }
+  .header-item strong {
+    color: var(--white);
+    font-weight: 700;
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .header-tag {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-left: 1px solid #333;
+  }
+  .tag-pill {
+    background: var(--red);
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .app { display: flex; flex: 1; overflow: hidden; }
+
+  /* MAP */
+  .map-side { flex: 1; position: relative; }
+  #map { width: 100%; height: 100%; }
+
+  /* PANEL */
+  .panel {
+    width: 360px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-left: 2px solid var(--black);
+    overflow: hidden;
+  }
+
+  /* ── SEARCH ── */
+  .search-block {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .search-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .search-wrap { position: relative; }
+  #search {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--black);
+    background: var(--white);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--black);
+    outline: none;
+    border-radius: 0;
+    transition: border-color 0.1s;
+  }
+  #search:focus { border-color: var(--red); }
+  #search::placeholder { color: var(--mid); }
+
+  /* ── FILTERS ── */
+  .filter-block {
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--black);
+    flex-shrink: 0;
+  }
+  .filter-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 8px;
+  }
+  .filter-row:last-child { margin-bottom: 0; }
+  .filter-key {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    width: 52px;
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .chip {
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.1s;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .chip:hover { border-color: var(--black); }
+  .chip.active {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* ── RESULTS BAR ── */
+  .results-bar {
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--grey);
+    flex-shrink: 0;
+  }
+  .results-count {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .clear-btn {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    display: none;
+  }
+  .clear-btn.visible { display: block; }
+
+  /* ── CARD LIST ── */
+  .card-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-list::-webkit-scrollbar { width: 3px; }
+  .card-list::-webkit-scrollbar-thumb { background: var(--black); }
+
+  /* ── CARD ── */
+  .card {
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+    animation: fadeIn 0.2s ease both;
+    display: grid;
+    grid-template-columns: 4px 1fr;
+  }
+  .card:hover .card-inner { background: var(--grey); }
+  .card.highlighted .card-accent { background: var(--red); }
+  .card.highlighted .card-inner { background: var(--grey); }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .card-accent {
+    background: transparent;
+    transition: background 0.1s;
+    flex-shrink: 0;
+  }
+  .card-inner {
+    padding: 12px 16px;
+    transition: background 0.1s;
+  }
+
+  .card-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .card-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    line-height: 1.2;
+  }
+  .card-price {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    margin-left: 8px;
+  }
+
+  .card-row-mid {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .card-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .card-tag.cuisine { color: var(--black); }
+
+  .card-order {
+    font-size: 11px;
+    color: var(--black);
+    line-height: 1.5;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .card-order span { color: var(--mid); }
+
+  /* ── EMPTY ── */
+  .empty {
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .empty-headline {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+  .empty-sub { font-size: 11px; color: var(--mid); }
+
+  /* ── MARKERS ── */
+  .marker {
+    width: 8px;
+    height: 8px;
+    background: var(--black);
+    border: 2px solid var(--white);
+    border-radius: 0;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    transition: background 0.1s, transform 0.1s;
+  }
+  .marker:hover { background: var(--red); transform: scale(1.5); }
+  .marker.active { background: var(--red); transform: scale(1.5); }
+
+  /* ── POPUP ── */
+  .mapboxgl-popup-content {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    box-shadow: none !important;
+    border: 2px solid var(--black) !important;
+    min-width: 180px;
+  }
+  .popup-header {
+    background: var(--black);
+    padding: 8px 12px;
+  }
+  .popup-cuisine {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 2px;
+  }
+  .popup-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+  .popup-body { padding: 8px 12px; }
+  .popup-suburb { font-size: 11px; color: var(--mid); }
+  .popup-meta {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--black);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .mapboxgl-popup-close-button {
+    color: var(--white) !important;
+    font-size: 14px;
+    padding: 4px 8px;
+    background: transparent;
+  }
+  .mapboxgl-popup-tip { display: none; }
+
+  /* mapbox nav buttons — square them */
+  .mapboxgl-ctrl button { border-radius: 0 !important; }
+  .mapboxgl-ctrl-group { border-radius: 0 !important; border: 1px solid var(--black) !important; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 680px) {
+    html, body { overflow: auto; }
+    .app { flex-direction: column; overflow: visible; }
+    .map-side { height: 44vh; flex: none; }
+    .panel { width: 100%; overflow: visible; }
+    .card-list { overflow: visible; }
+    .header-tag { display: none; }
+    .header-meta { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    <div>
+      <div class="logo-wordmark">Soy Sauce,<br>Sugar, Mirin</div>
+      <div class="logo-rule"></div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="header-item">
+      <strong id="hdr-count">—</strong>
+      Restaurants
+    </div>
+    <div class="header-item">
+      <strong>Melbourne</strong>
+      Victoria, AU
+    </div>
+  </div>
+  <div class="header-tag">
+    <div class="tag-pill">Curated</div>
+  </div>
+</header>
+
+<div class="app">
+  <div class="map-side"><div id="map"></div></div>
+
+  <div class="panel">
+    <div class="search-block">
+      <span class="search-label">Search</span>
+      <div class="search-wrap">
+        <input id="search" type="text" placeholder="Name, dish, suburb…">
+      </div>
+    </div>
+
+    <div class="filter-block">
+      <div class="filter-row">
+        <span class="filter-key">Cuisine</span>
+        <div class="filter-chips" id="cuisine-filters"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-key">Suburb</span>
+        <div class="filter-chips" id="suburb-filters"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-key">Price</span>
+        <div class="filter-chips" id="price-filters"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-key">Vibe</span>
+        <div class="filter-chips" id="vibe-filters"></div>
+      </div>
+    </div>
+
+    <div class="results-bar">
+      <span class="results-count" id="results-count"></span>
+      <button class="clear-btn" id="clear-btn" onclick="clearAll()">Clear all</button>
+    </div>
+
+    <div class="card-list" id="card-list"></div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  MAPBOX TOKEN
+// ─────────────────────────────────────────
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGFydmFyZHdhbmciLCJhIjoiY21uMmx5dW45MTE3cTJ3cG5uOG1kNml5MSJ9.1C5ZiisSfrafHJe0T4K8Kg';
+
+// ─────────────────────────────────────────
+//  RESTAURANTS
+// ─────────────────────────────────────────
+const restaurants = [
+  { name:"Tipo 00",        cuisine:"Italian",          suburb:"Melbourne CBD",  price:"$$",  vibe:"Date night",       must_order:"Cacio e pepe — silky, salty perfection every time.", lat:-37.8142, lng:144.9632 },
+  { name:"Ramen Suzuki",   cuisine:"Japanese",         suburb:"Fitzroy",        price:"$",   vibe:"Casual",           must_order:"Tonkotsu ramen with extra chashu.", lat:-37.7997, lng:144.9784 },
+  { name:"Gimlet",         cuisine:"Modern Australian",suburb:"Melbourne CBD",  price:"$$$", vibe:"Special occasion", must_order:"Wood-roasted chicken with bread sauce.", lat:-37.8162, lng:144.9688 },
+  { name:"Anchovy",        cuisine:"Vietnamese",       suburb:"Richmond",       price:"$$",  vibe:"Date night",       must_order:"Banh cuon and the pandan crepes.", lat:-37.8215, lng:144.9921 },
+  { name:"Taco Truck",     cuisine:"Mexican",          suburb:"Collingwood",    price:"$",   vibe:"Casual",           must_order:"Al pastor tacos, double the salsa verde.", lat:-37.8035, lng:144.9843 },
+  { name:"Flower Drum",    cuisine:"Chinese",          suburb:"Melbourne CBD",  price:"$$$", vibe:"Special occasion", must_order:"Peking duck — order it every time, no regrets.", lat:-37.8120, lng:144.9650 },
+  { name:"Entrecôte",      cuisine:"French",           suburb:"South Yarra",    price:"$$",  vibe:"Date night",       must_order:"Steak frites with their secret sauce.", lat:-37.8385, lng:144.9935 },
+  { name:"Lagoon Dining",  cuisine:"Modern Australian",suburb:"South Melbourne",price:"$$",  vibe:"Weekend brunch",   must_order:"Smoked trout hash and the coffee.", lat:-37.8320, lng:144.9560 },
+  { name:"Hanoi Hannah",   cuisine:"Vietnamese",       suburb:"Windsor",        price:"$",   vibe:"Casual",           must_order:"Lemongrass chicken baguette.", lat:-37.8450, lng:144.9930 },
+];
+
+// ─────────────────────────────────────────
+//  MAP
+// ─────────────────────────────────────────
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/standard',
+  center: [144.9700, -37.8200],
+  zoom: 13,
+  pitch: 45,
+  bearing: -10
+});
+map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right');
+map.on('style.load', () => {
+  map.setConfigProperty('basemap', 'colorTheme', 'monochrome');
+});
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+let activeFilters = { cuisine: null, suburb: null, price: null, vibe: null };
+let searchQuery = '';
+let markers = {};
+let activePopup = null;
+let highlightedIndex = null;
+
+// ─────────────────────────────────────────
+//  MARKERS — square dots
+// ─────────────────────────────────────────
+restaurants.forEach((r, i) => {
+  const el = document.createElement('div');
+  el.className = 'marker';
+
+  const marker = new mapboxgl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([r.lng, r.lat])
+    .addTo(map);
+
+  el.addEventListener('click', () => {
+    flyTo(r);
+    highlightCard(i);
+    showPopup(r, i);
+  });
+
+  markers[i] = { marker, el };
+});
+
+function flyTo(r) {
+  map.flyTo({ center: [r.lng, r.lat], zoom: 15, duration: 800, essential: true });
+}
+
+function showPopup(r, i) {
+  if (activePopup) activePopup.remove();
+  activePopup = new mapboxgl.Popup({ offset: 0, closeButton: true, anchor: 'bottom' })
+    .setLngLat([r.lng, r.lat])
+    .setHTML(`
+      <div class="popup-header">
+        <div class="popup-cuisine">${r.cuisine}</div>
+        <div class="popup-name">${r.name}</div>
+      </div>
+      <div class="popup-body">
+        <div class="popup-suburb">${r.suburb}</div>
+        <div class="popup-meta">${r.price} &nbsp;·&nbsp; ${r.vibe}</div>
+      </div>`)
+    .addTo(map);
+}
+
+function highlightCard(i) {
+  if (highlightedIndex !== null) {
+    document.querySelector(`.card[data-index="${highlightedIndex}"]`)?.classList.remove('highlighted');
+    markers[highlightedIndex]?.el.classList.remove('active');
+  }
+  highlightedIndex = i;
+  const card = document.querySelector(`.card[data-index="${i}"]`);
+  if (card) { card.classList.add('highlighted'); card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  markers[i]?.el.classList.add('active');
+}
+
+// ─────────────────────────────────────────
+//  FILTERS
+// ─────────────────────────────────────────
+function unique(key) { return [...new Set(restaurants.map(r => r[key]))].sort(); }
+
+function buildFilters(containerId, key, values) {
+  const wrap = document.getElementById(containerId);
+  values.forEach(val => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = val;
+    btn.dataset.key = key;
+    btn.addEventListener('click', () => toggleFilter(key, val, btn));
+    wrap.appendChild(btn);
+  });
+}
+
+buildFilters('cuisine-filters', 'cuisine', unique('cuisine'));
+buildFilters('suburb-filters',  'suburb',  unique('suburb'));
+buildFilters('price-filters',   'price',   ['$', '$$', '$$$']);
+buildFilters('vibe-filters',    'vibe',    unique('vibe'));
+
+function toggleFilter(key, val, btn) {
+  if (activeFilters[key] === val) {
+    activeFilters[key] = null;
+    btn.classList.remove('active');
+  } else {
+    document.querySelectorAll(`.chip[data-key="${key}"]`).forEach(c => c.classList.remove('active'));
+    activeFilters[key] = val;
+    btn.classList.add('active');
+  }
+  render();
+}
+
+function clearAll() {
+  activeFilters = { cuisine: null, suburb: null, price: null, vibe: null };
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('search').value = '';
+  searchQuery = '';
+  render();
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase();
+  render();
+});
+
+// ─────────────────────────────────────────
+//  RENDER
+// ─────────────────────────────────────────
+function render() {
+  const hasFilter = Object.values(activeFilters).some(Boolean) || searchQuery;
+  document.getElementById('clear-btn').classList.toggle('visible', hasFilter);
+
+  const filtered = restaurants.map((r, i) => ({ ...r, _i: i })).filter(r => {
+    for (const [key, val] of Object.entries(activeFilters)) {
+      if (val && r[key] !== val) return false;
+    }
+    if (searchQuery) {
+      const hay = `${r.name} ${r.cuisine} ${r.suburb} ${r.vibe} ${r.must_order}`.toLowerCase();
+      if (!hay.includes(searchQuery)) return false;
+    }
+    return true;
+  });
+
+  const visibleSet = new Set(filtered.map(r => r._i));
+  restaurants.forEach((_, i) => {
+    if (visibleSet.has(i)) markers[i].marker.addTo(map);
+    else markers[i].marker.remove();
+  });
+
+  const count = filtered.length;
+  const countStr = `${count} place${count !== 1 ? 's' : ''}`;
+  document.getElementById('results-count').textContent = countStr;
+  document.getElementById('hdr-count').textContent = restaurants.length;
+
+  const list = document.getElementById('card-list');
+  list.innerHTML = '';
+
+  if (!filtered.length) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-headline">No results</div>
+        <div class="empty-sub">Adjust filters or search term.</div>
+      </div>`;
+    return;
+  }
+
+  filtered.forEach((r, pos) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.index = r._i;
+    card.style.animationDelay = `${pos * 25}ms`;
+    card.innerHTML = `
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <div class="card-row-top">
+          <span class="card-name">${r.name}</span>
+          <span class="card-price">${r.price}</span>
+        </div>
+        <div class="card-row-mid">
+          <span class="card-tag cuisine">${r.cuisine}</span>
+          <span class="card-tag">${r.suburb}</span>
+          <span class="card-tag">${r.vibe}</span>
+        </div>
+        <div class="card-order"><span>Order: </span>${r.must_order}</div>
+      </div>`;
+    card.addEventListener('click', () => { flyTo(r); highlightCard(r._i); showPopup(r, r._i); });
+    list.appendChild(card);
+  });
+}
+
+map.on('load', render);
+</script>
+</body>
+</html>
